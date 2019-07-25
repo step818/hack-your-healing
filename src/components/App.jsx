@@ -7,8 +7,13 @@ import Home from './Home';
 import Schedule from './Schedule';
 
 class App extends React.Component {
+
+    
     
     render() {
+
+        
+    
 
         return (
             <div>
@@ -16,7 +21,7 @@ class App extends React.Component {
                 .App {text-align: center;
                         
                 }
-                .App-body {background-color: #ffad33;
+                .App-body {background-image: linear-gradient(to bottom right, #4d004d, #42cbf5, #ffad33);
                     min-height: 100vh;
                     display: flex;
                     flex-direction: column;

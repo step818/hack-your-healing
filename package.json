@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^4.1.1",
+    "moment": "^2.18.1",
     "prop-types": "^15.5.10",
     "radium": "^0.25.2",
     "react": "^15.5.4",
