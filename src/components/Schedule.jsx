@@ -1,11 +1,18 @@
 import React from 'react';
+import ScheduleList from './ScheduleList';
 
-const Schedule = () => {
-    return(
-        <div>
-            The schedule page
-        </div>
-    );
-};
+class Schedule extends React.Component {
+    
+
+    render() {
+        return(
+            <div>
+                The schedule page
+
+                <ScheduleList  />
+            </div>
+        );
+    }
+}
 
 export default Schedule;

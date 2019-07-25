@@ -18,6 +18,7 @@ const Header = () => {
             }
             .App-logo {animation: App-logo-spin infinite 20s linear;
                         height: 17vmin;
+                        margin-top: 20px;
                         pointer-events: none;
             }
 
