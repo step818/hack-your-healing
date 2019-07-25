@@ -4,12 +4,13 @@ const ScheduleFormat = (props) => {
     return(
         <div>
             <style jsx>{`
-                .Schedule-format {width: 40%;
-                    margin: 16px auto;
+                .Schedule-format {width: 50%;
+                    margin: 8px auto;
                     border: 1px solid #eee;
                     box-shadow: 0 2px 3px #ccc;
-                    padding: 40px;
+                    padding: 0px 60px 0px 60px;
                     text-align: center;
+                    background-color: goldenrod;
                 }
             `}</style>
             <div className="Schedule-format">

@@ -32,26 +32,26 @@ class Schedule extends React.Component {
     }
 
     componentDidMount() {
-        this.updateTimer = setInterval(() => this.updateSchedule(), 15000); 
+        this.updateTimer = setInterval(() => this.updateSchedule(), 60000); 
     }
 
     updateSchedule() {
         console.log("updateSchedule called");
-    }
-        render() {
-            
 
+        // If (now === then) {setState below}
+        var newMasterScheduleList = this.state.masterScheduleList.slice();
+        newMasterScheduleList.shift();
+        this.setState({masterScheduleList: newMasterScheduleList});
+    }
+
+        render() {
             return(
                 <div>
                     The schedule page
-                    
-                   
-
                     <ScheduleList  masterScheduleList={this.state.masterScheduleList} />
                 </div>
             );
-        }
-    
+        }  
 }
 
 export default Schedule;
