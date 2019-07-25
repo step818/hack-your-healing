@@ -37,17 +37,20 @@ class Schedule extends React.Component {
 
     updateSchedule() {
         console.log("updateSchedule called");
-
+        
         // If (now === then) {setState below}
+        //if(moment() === {props.date} + {props.time}){} 
         var newMasterScheduleList = this.state.masterScheduleList.slice();
         newMasterScheduleList.shift();
         this.setState({masterScheduleList: newMasterScheduleList});
     }
-
         render() {
+            
+            
             return(
                 <div>
                     The schedule page
+                    The time is ... 
                     <ScheduleList  masterScheduleList={this.state.masterScheduleList} />
                 </div>
             );
