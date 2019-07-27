@@ -9,20 +9,20 @@ class Schedule extends React.Component {
         this.state = {
             masterScheduleList: [
                 {
-                    date: 'Thursday, August 1',
-                    time: 0,
+                    date: 'Fri Jul 26 2019',
+                    time: '10 : 40 PM',
                     title: 'Hot POWER',
                     instructor: 'Nika'
                 },
                 {
-                    date: 'Thursday, August 1',
-                    time: 1,
+                    date: 'Fri Jul 26 2019',
+                    time: '10 : 41 PM',
                     title: 'Deep Stretch',
                     instructor: 'Ali\'i'
                 },
                 {
-                    date: 'Thursday, August 1',
-                    time: 2,
+                    date: 'Fri Jul 26 2019',
+                    time: '10 : 42 PM',
                     title: 'Kundalini',
                     instructor: 'Keanu11111'
                 }
@@ -36,7 +36,7 @@ class Schedule extends React.Component {
         this.updateTimer = setInterval(() => this.updateSchedule(), 30000); 
     }
 
-    callMe() {
+    showTime() {
         setInterval(() => {
             this.setState({ date: new Date() });
         }, 1000);
@@ -46,11 +46,16 @@ class Schedule extends React.Component {
         console.log("updateSchedule called");
         
         // If (now >= then) {setState below}
-        if(this.state.date.getMinutes() >= this.state.masterScheduleList[0].time){
-            console.log("if statement called!");
+        if(this.state.date.toDateString() == this.state.masterScheduleList[0].date){    console.log("1st if statement called!");
+            let timeArray = this.state.masterScheduleList[0].time.split(' ');
+            if (this.state.date.getHours() >= timeArray[0] && this.state.date.getMinutes() >= timeArray[2]) {
+
+            console.log("2nd if statement called!");
+
             var newMasterScheduleList = this.state.masterScheduleList.slice();
             newMasterScheduleList.shift(); 
             this.setState({masterScheduleList: newMasterScheduleList});
+            }
         }
         
     }
@@ -61,8 +66,9 @@ class Schedule extends React.Component {
                 <div>
                     The schedule page
                     The time is ... 
-                    <p>{this.state.date.getMinutes()}</p>
-                    {this.callMe()}
+                    <p>{this.state.date.toDateString()}</p>
+                    <p>{this.state.date.toLocaleTimeString()}</p>
+                    {this.showTime()}
                     <ScheduleList  masterScheduleList={this.state.masterScheduleList} />
                 </div>
             );
