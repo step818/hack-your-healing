@@ -1,10 +1,15 @@
 import React from 'react';
+import firebase from 'firebase';
 import ScheduleList from './ScheduleList';
 //import moment from 'moment';
+import { firebaseConfig } from './../constants/config.js';
 
 class Schedule extends React.Component {
     constructor(props){
         super(props);
+        
+        firebase.initializeApp(firebaseConfig.firebase);
+       
 
         this.state = {
             masterScheduleList: [
@@ -27,14 +32,40 @@ class Schedule extends React.Component {
                     instructor: 'Keanu11111'
                 }
             ],
-            date: new Date()
-        };
-       
+            date: new Date(),
+            schedules: []
+        };       
     }
 
     componentDidMount() {
         this.updateTimer = setInterval(() => this.updateSchedule(), 30000); 
     }
+//TODO: FIREBASE methods 
+    componentDidMount() {
+        this.getUserData();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState != this.state) {
+            this.writeUserData();
+        }
+    }
+
+    writeUserData = () => {
+        firebase.database().ref('/').set(this.state);
+        console.log('DATA Saved');
+    }
+
+    getUserData = () => {
+        let ref = firebase.database().ref('/');
+        ref.on('value', snapshot => {
+            const state = snapshot.val();
+            this.setState(state);
+        });
+        console.log('Data retireved');
+    }
+
+//END of firebase methods
 
     showTime() {
         setInterval(() => {
@@ -60,7 +91,7 @@ class Schedule extends React.Component {
         
     }
         render() {
-            
+            const { schedules } = this.state;
             
             return(
                 <div>
@@ -69,10 +100,41 @@ class Schedule extends React.Component {
                     <p>{this.state.date.toDateString()}</p>
                     <p>{this.state.date.toLocaleTimeString()}</p>
                     {this.showTime()}
+
+                    
+                    <h1>Firebase Schedule</h1>
+                    <p>The new test schedule for {this.state.schedules.date} is {this.state.schedules.instructor} in {this.state.schedules.title}</p>
+
+                    <form onSubmit={ this.handleSubmit }>
+                        <label>Title</label>
+                        <input type="text" ref='title' placeholder="Title" />
+
+                        <label>Insstructor</label>
+                        <input type="text" ref='instructor' placeholder="Instructor Name" />
+
+                        <button type="submit" className="btn btn-primary">Save</button>
+                    </form>
+
+
                     <ScheduleList  masterScheduleList={this.state.masterScheduleList} />
                 </div>
             );
         }  
+
+        handleSubmit = (event) => {
+            event.preventDefault();
+            let title = this.refs.title.value;
+            let instructor = this.refs.instructor.value;
+
+            if(title && instructor) {
+                const { schedules } =this.state;
+                schedules.push({ title, instructor });
+                this.setState({ schedules });
+            }
+
+            this.refs.title.value = '';
+            this.refs.instructor.value = '';
+        }
 }
 
 export default Schedule;
