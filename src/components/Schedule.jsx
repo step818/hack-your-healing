@@ -1,14 +1,12 @@
 import React from 'react';
-import firebase from 'firebase';
 import ScheduleList from './ScheduleList';
 //import moment from 'moment';
-import { firebaseConfig } from './../constants/config.js';
+import fire from './../constants/fire.js';
+import { SERVFAIL } from 'dns';
 
 class Schedule extends React.Component {
     constructor(props){
         super(props);
-        
-        firebase.initializeApp(firebaseConfig.firebase);
        
 
         this.state = {
@@ -41,29 +39,15 @@ class Schedule extends React.Component {
         this.updateTimer = setInterval(() => this.updateSchedule(), 30000); 
     }
 //TODO: FIREBASE methods 
-    componentDidMount() {
-        this.getUserData();
+ 
+    componentWillMount() {
+        let messagesRef = fire.database().ref('schedules').orderByKey().limitToLast(100);
+        messagesRef.on('child_added', snapshot => {
+            let schedule = { text: snapshot.val(), id: snapshot.key };
+            this.setState({ schedules: [schedule].concat(this.state.schedules) });
+        })
     }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (prevState != this.state) {
-            this.writeUserData();
-        }
-    }
-
-    writeUserData = () => {
-        firebase.database().ref('/').set(this.state);
-        console.log('DATA Saved');
-    }
-
-    getUserData = () => {
-        let ref = firebase.database().ref('/');
-        ref.on('value', snapshot => {
-            const state = snapshot.val();
-            this.setState(state);
-        });
-        console.log('Data retireved');
-    }
+    //TODO: Make an admin component that has a function to add to schedules
 
 //END of firebase methods
 
@@ -121,20 +105,20 @@ class Schedule extends React.Component {
             );
         }  
 
-        handleSubmit = (event) => {
-            event.preventDefault();
-            let title = this.refs.title.value;
-            let instructor = this.refs.instructor.value;
+        // handleSubmit = (event) => {
+        //     event.preventDefault();
+        //     let title = this.refs.title.value;
+        //     let instructor = this.refs.instructor.value;
 
-            if(title && instructor) {
-                const { schedules } =this.state;
-                schedules.push({ title, instructor });
-                this.setState({ schedules });
-            }
+        //     if(title && instructor) {
+        //         const { schedules } =this.state;
+        //         schedules.push({ title, instructor });
+        //         this.setState({ schedules });
+        //     }
 
-            this.refs.title.value = '';
-            this.refs.instructor.value = '';
-        }
+        //     this.refs.title.value = '';
+        //     this.refs.instructor.value = '';
+        // }
 }
 
 export default Schedule;

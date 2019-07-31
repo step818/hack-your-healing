@@ -5,7 +5,7 @@ import { Switch, Route } from 'react-router-dom';
 import Header from './Header';
 import Home from './Home';
 import Schedule from './Schedule';
-import Error404 from './Error404';
+//import Error404 from './Error404';
 import Admin from './Admin';
 
 class App extends React.Component {
@@ -38,7 +38,7 @@ class App extends React.Component {
                             <Route exact path='/' component={Home} />
                             <Route path='/schedule' component={Schedule} />
 
-                            <Route component={Error404} />
+                            {/* <Route component={Error404} /> */}
                             <Route path='/admin' component={Admin} />
                         </div>
                     </Switch>
